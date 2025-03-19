@@ -2,3 +2,7 @@ HEAD
 raw_data/
 data_train/
 data_test/
+*.jpeg
+*.zip
+*.csv
+*.xlsx
