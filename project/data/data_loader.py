@@ -182,12 +182,6 @@ def organize_dataset_by_class(extract_dir="./data/odir5k"):
     print(f"Organized {test_length + train_length} images into class directories.")
     return True
 
-import os
-import numpy as np
-import cv2
-from PIL import Image, ImageEnhance
-import random
-
 def augment_fundus_image(image_path):
     """
     Load a fundus image, apply 8 different augmentations, and save the transformed versions
