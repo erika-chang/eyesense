@@ -1,10 +1,14 @@
 import pandas as pd
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from utils import prepara_data, load_model
+from utils import prepare_image, load_model
+from PIL import Image
+import io
 from google.cloud import storage
 import os
 import tensorflow as tf 
+
 
 # Receberia a imagem
 # Prepararia ela (size, normalization, tensor)
@@ -22,17 +26,22 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-# Initialize at startup
-@app.on_event("startup")
-async def startup_event():
-    model = load_model()
-
 @app.post("/predict")
-async def predict(data: dict):
-    # Use model for prediction
-    result = dict(classification=model.predict(data))
+async def predict(img: UploadFile = File(...)):
+    try:
+        # Ler e converter a imagem para um formato utilizável
+        contents = await img.read()
+        image = Image.open(io.BytesIO(contents))
 
-    return result
+        X = prepare_image(image, 256, 256)
+
+        model = load_model()
+        result = dict(classification=model.predict(X))
+
+        return JSONResponse(content=result, status_code=200)
+
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
 
 @app.get("/")
 def root():
