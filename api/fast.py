@@ -26,7 +26,6 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-# http://127.0.0.1:8000/predict?image
 @app.post("/predict")
 async def predict(img: UploadFile = File(...)):
     try:
