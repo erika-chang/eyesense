@@ -5,6 +5,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from utils import prepare_image, load_model
 from PIL import Image
 import io
+from google.cloud import storage
+import os
+import tensorflow as tf 
 
 
 # Receberia a imagem
