@@ -1,0 +1,13 @@
+pandas
+tensorflow
+keras
+matplotlib
+scikit-learn
+opencv-python
+pillow
+numpy
+
+# API
+fastapi         # API framework
+pytz            # time zone management
+uvicorn         # web server
