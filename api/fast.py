@@ -3,6 +3,11 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from utils import prepara_data, load_model
 
+# Receberia a imagem
+# Prepararia ela (size, normalization, tensor)
+# Load model
+# Predict
+
 app = FastAPI()
 
 # Allowing all middleware is optional, but good practice for dev purposes
