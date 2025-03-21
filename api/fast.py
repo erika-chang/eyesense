@@ -2,6 +2,9 @@ import pandas as pd
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from utils import prepara_data, load_model
+from google.cloud import storage
+import os
+import tensorflow as tf 
 
 # Receberia a imagem
 # Prepararia ela (size, normalization, tensor)
@@ -19,16 +22,28 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-# http://127.0.0.1:8000/predict?image
-@app.get("/predict")
-def predict(image):
-    """
-    Make a single course prediction.
-    """
-    X = prepare_data(image)
+# Download model on startup
+MODEL_BUCKET = "eyesense-model1"
+MODEL_PATH = "best_model.h5"
+LOCAL_MODEL_PATH = "/tmp/model.h5"
+
+# Initialize at startup
+@app.on_event("startup")
+async def startup_event():
+    # Download the model from GCS
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(MODEL_BUCKET)
+    blob = bucket.blob(MODEL_PATH)
+    blob.download_to_filename(LOCAL_MODEL_PATH)
     
-    model = load_model()
-    result = dict(classification=model.predict(X))
+    # Load the model
+    global model
+    model = tf.keras.models.load_model(LOCAL_MODEL_PATH)
+
+@app.post("/predict")
+async def predict(data: dict):
+    # Use model for prediction
+    result = dict(classification=model.predict(data))
 
     return result
 

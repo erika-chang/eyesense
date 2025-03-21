@@ -11,3 +11,6 @@ numpy
 fastapi         # API framework
 pytz            # time zone management
 uvicorn         # web server
+
+# Download the model
+google.cloud
