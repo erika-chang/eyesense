@@ -22,23 +22,10 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-# Download model on startup
-MODEL_BUCKET = "eyesense-model1"
-MODEL_PATH = "best_model.h5"
-LOCAL_MODEL_PATH = "/tmp/model.h5"
-
 # Initialize at startup
 @app.on_event("startup")
 async def startup_event():
-    # Download the model from GCS
-    storage_client = storage.Client()
-    bucket = storage_client.bucket(MODEL_BUCKET)
-    blob = bucket.blob(MODEL_PATH)
-    blob.download_to_filename(LOCAL_MODEL_PATH)
-    
-    # Load the model
-    global model
-    model = tf.keras.models.load_model(LOCAL_MODEL_PATH)
+    model = load_model()
 
 @app.post("/predict")
 async def predict(data: dict):
