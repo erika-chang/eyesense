@@ -1,14 +1,10 @@
-import pandas as pd
 from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from utils import prepare_image, load_model
+from utils import prepare_image, load_model_from_gcp
 from PIL import Image
 import io
-from google.cloud import storage
-import os
-import tensorflow as tf 
-
+import numpy as np
 
 # Receberia a imagem
 # Prepararia ela (size, normalization, tensor)
@@ -33,12 +29,15 @@ async def predict(img: UploadFile = File(...)):
         contents = await img.read()
         image = Image.open(io.BytesIO(contents))
 
-        X = prepare_image(image, 256, 256)
+        X = prepare_image(image, 224, 224)
+        
+        model = load_model_from_gcp()
+         
+        CLASS_NAMES = ['cataract', 'degeneration', 'diabets', 'glaucoma', 'hypertension', 'myopia', 'normal', 'others']
+        predictions = model.predict(X)
+        predicted_class = CLASS_NAMES[np.argmax(predictions, axis=1)[0]]
 
-        model = load_model()
-        result = dict(classification=model.predict(X))
-
-        return JSONResponse(content=result, status_code=200)
+        return JSONResponse(content={"result":predicted_class}, status_code=200)
 
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
