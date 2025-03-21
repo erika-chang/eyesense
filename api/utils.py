@@ -1,6 +1,6 @@
 import tensorflow as tf
 import numpy as np
-from tensorflow.keras import layers
+from google.cloud import storage
 
 def prepare_image(image, height, width):
     """
@@ -28,9 +28,9 @@ def prepare_image(image, height, width):
 
     return image_array
 
-def load_model():
+def load_model_from_gcp():
     # Download model on startup
-    MODEL_BUCKET = "eyesense-model1"
+    MODEL_BUCKET = "eyesense_model"
     MODEL_PATH = "best_model.h5"
     LOCAL_MODEL_PATH = "/tmp/model.h5"
     
