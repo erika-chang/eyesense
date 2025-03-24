@@ -1,6 +1,6 @@
 import tensorflow as tf
 import numpy as np
-from google.cloud import storage
+import google.cloud.storage as storage
 
 def prepare_image(image, height, width):
     """
