@@ -1,11 +1,10 @@
-pandas
-tensorflow
-keras
+tensorflow==2.19.0 
+numpy==2.1.3
 matplotlib
 scikit-learn
 opencv-python
 pillow
-numpy
+python-multipart
 
 # API
 fastapi         # API framework
@@ -13,4 +12,4 @@ pytz            # time zone management
 uvicorn         # web server
 
 # Download the model
-google.cloud
+google.cloud.storage
