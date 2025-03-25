@@ -1,1 +1,0 @@
-This folder stores configurations specific to the local machine setup. This might include settings for local development environments (like API keys, configuration for Docker or Streamlit settings), database credentials, or other environment-specific configurations.
