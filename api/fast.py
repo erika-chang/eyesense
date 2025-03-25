@@ -6,6 +6,7 @@ from PIL import Image
 import io
 import numpy as np
 import tensorflow as tf
+import operator
 
 # Receberia a imagem
 # Prepararia ela (size, normalization, tensor)
@@ -13,8 +14,7 @@ import tensorflow as tf
 # Predict
 
 app = FastAPI()
-app.state.model = tf.keras.models.load_model("api/Xception-01.keras")
-#app.state.model = utils.load_model_from_gcp()
+app.state.model = utils.load_model_from_gcp()
 # Allowing all middleware is optional, but good practice for dev purposes
 app.add_middleware(
     CORSMiddleware,
@@ -33,11 +33,18 @@ async def predict(img: UploadFile = File(...)):
 
         X = utils.prepare_image(image, 299, 299)
          
-        CLASS_NAMES = ['cataract', 'degeneration', 'diabets', 'glaucoma', 'hypertension', 'myopia', 'normal', 'others']
+        CLASS_NAMES = ['cataract', 'degeneration', 'diabets', 'glaucoma', 'hypertension', 'myopia', 'normal']
         predictions = app.state.model.predict(X)
-        predicted_class = CLASS_NAMES[np.argmax(predictions, axis=1)[0]]
+        
+        dict_pred = {}
+        j = 0
+        for i in predictions[0]:
+            dict_pred[CLASS_NAMES[j]] = round(float(i),4)
+            j += 1
 
-        return JSONResponse(content={"result":predicted_class}, status_code=200)
+        pred_list = sorted(dict_pred.items(), key=operator.itemgetter(1), reverse=True)
+
+        return JSONResponse(content={"result":pred_list}, status_code=200)
 
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)

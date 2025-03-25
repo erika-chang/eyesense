@@ -31,7 +31,7 @@ def prepare_image(image, height, width):
 def load_model_from_gcp():
     # Download model on startup
     MODEL_BUCKET = "eyesense_model"
-    MODEL_PATH = "Xception-01.keras"
+    MODEL_PATH = "model_Xception-02.keras"
     LOCAL_MODEL_PATH = "/tmp/model.keras"
     
     # Download the model from GCS
