@@ -121,7 +121,7 @@ Please read `COLLABORATION.md` for details on our code of conduct and submission
 
 **Claudio Azzi**   -     [@caazzi](https://github.com/caazzi)  
 **Erika Chang**    -     [@erika-chang](https://github.com/erika-chang)
-**George Silva**   -     [@gbs1234]https://github.com/gbs1234)  
+**George Silva**   -     [@gbs1234](https://github.com/gbs1234)  
 **Joao Sales**     -     [@masalesvic](https://github.com/masalesvic)  
 
 
