@@ -16,3 +16,44 @@ data_test/
 # Ignore Windows Zone.Identifier files
 *:Zone.Identifier
 
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# MacOS and system files
+.DS_Store
+Thumbs.db
+
+# VSCode or IDE configs (optional, personal preference)
+.vscode/
+.idea/
+
+# Python package files
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Environment files
+.env
+.env.*
+
+# Streamlit cache
+.streamlit/
+
+# API cache or compiled files
+__pycache__/
+*.sqlite3
